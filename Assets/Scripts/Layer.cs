@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Layer : ScriptableObject {
-	public int layer;
+public class LevelLayer : ScriptableObject {
+
+	//[System.Serializable]
+	public Material material;
+	public string layerName;
+	public float sortOrder;
+	public float parallaxWeight;
 	public TriangleBlock.Struct[] triangleStructs;
 }

@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEditor;
 using System.IO;
-
 
 public class LevelEditor : MonoBehaviour 
 {
@@ -13,20 +11,36 @@ public class LevelEditor : MonoBehaviour
 	private GameObject levelRoot;
 	private Camera mainCamera;
 	private Mesh[] meshes;
-	private int size = 5;
+	private int size = 10;
+
+	// todo: temp
+	public Level testLevel;
 
 	void Start ()
 	{
+
 		mainCamera = Camera.main;
+		meshes = MeshUtility.GenerateMeshes();
+
+		// todo: temp
+		if (testLevel) {
+
+			for(var i = 0; i < testLevel.layers.Count; i++) {
+				LoadLayer(testLevel.layers[i]);
+			}
+			return;
+		}
+
 		triangleBlocks = new List<GameObject>();
 		levelRoot = new GameObject();
 		levelRoot.name = "levelLayer";
 		GenerateGrid(size);
-		meshes = MeshUtility.GenerateMeshes();
 	}
 
 	void Update ()
 	{
+
+		// todo: break out to camera controller
 		var mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
 		if (Input.GetMouseButton(0))
@@ -41,7 +55,7 @@ public class LevelEditor : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			SaveAsLayer();
+			SaveLayer();
 		}
 	}
 
@@ -50,14 +64,17 @@ public class LevelEditor : MonoBehaviour
 		var closestBlock =  GetClosestBlock(mousePos, triangleBlocks);
 		float angle = GetAngleDegFromPoints(closestBlock.transform.position, mousePos);
 		TriangleLocation location = GetTriangleLocationFromAngle(angle);
+		int triangleLocation = (int)location;
 
-		var hasTriangle = closestBlock.GetComponent<TriangleBlock>().triangles[(int)location];
+		var hasTriangle = closestBlock.GetComponent<TriangleBlock>().triangles[triangleLocation];
 		if (!hasTriangle)
 		{
 			var gameObject = GenerateTriangleGameObject(closestBlock.transform.position);
-			gameObject.GetComponent<MeshFilter>().mesh = meshes[(int)location];
-			closestBlock.GetComponent<TriangleBlock>().triangles[(int)location] = gameObject;
+			gameObject.GetComponent<MeshFilter>().mesh = meshes[triangleLocation];
 			gameObject.transform.parent = closestBlock.transform;
+			gameObject.name = location.ToString();
+			
+			closestBlock.GetComponent<TriangleBlock>().triangles[triangleLocation] = gameObject;
 		}
 	}
 
@@ -66,11 +83,12 @@ public class LevelEditor : MonoBehaviour
 		var closestBlock =  GetClosestBlock(mousePos, triangleBlocks);
 		float angle = GetAngleDegFromPoints(closestBlock.transform.position, mousePos);
 		TriangleLocation location = GetTriangleLocationFromAngle(angle);
+		int triangleLocation = (int)location;
 
-		var hasTriangle = closestBlock.GetComponent<TriangleBlock>().triangles[(int)location];
+		var hasTriangle = closestBlock.GetComponent<TriangleBlock>().triangles[triangleLocation];
 		if (hasTriangle)
 		{
-			var gameObject = closestBlock.GetComponent<TriangleBlock>().triangles[(int)location];
+			var gameObject = closestBlock.GetComponent<TriangleBlock>().triangles[triangleLocation];
 			if (gameObject)
 			{
 				DestroyGameObject(gameObject);
@@ -82,7 +100,6 @@ public class LevelEditor : MonoBehaviour
 	{
 		float closestDistance = float.MaxValue;
 		GameObject closestBlock = blocks[0]; // todo: temp solution
-		int index = 0;
 
 		for (var i = 0; i < blocks.Count; i++)
 		{
@@ -92,7 +109,6 @@ public class LevelEditor : MonoBehaviour
 			{
 				closestDistance = dist;
 				closestBlock = blocks[i];
-				index = i;
 			}
 		}
 		return closestBlock;
@@ -152,9 +168,9 @@ public class LevelEditor : MonoBehaviour
 		return gameObject;
 	}
 
-	void SaveAsLayer ()
+	void SaveLayer ()
 	{
-		Layer layer = ScriptableObject.CreateInstance<Layer>();
+		LevelLayer layer = ScriptableObject.CreateInstance<LevelLayer>();
 		List<TriangleBlock.Struct> structs = new List<TriangleBlock.Struct>();
 
 		for (var i = 0; i < triangleBlocks.Count; i++)
@@ -169,38 +185,52 @@ public class LevelEditor : MonoBehaviour
 		}
 
 		layer.triangleStructs = structs.ToArray();
-		AssetDatabase.CreateAsset(layer, "Assets/ScriptableObjects.asset");
+		AssetDatabase.CreateAsset(layer, GetValidPath());
 		print("Asset Created");
 	}
 
+	void LoadLayer (LevelLayer layer)
+	{
 
+		var root = new GameObject();
+		root.AddComponent<ParallaxLayer>();
+		root.name = layer.name;
 
+		var paraLayer = root.GetComponent<ParallaxLayer>();
+		paraLayer.SetSortOrder(layer.sortOrder);
+		paraLayer.SetParallaxWeight(layer.parallaxWeight);
+		paraLayer.SetCamera(mainCamera);
 
-	// void SaveAsLayer () {
+		for (var i = 0; i < layer.triangleStructs.Length; i++)
+		{
+			var currTriangle = layer.triangleStructs[i];
 
-	// 	Layer layer = ScriptableObject.CreateInstance<Layer>();
-	// 	List<BlockStruct> blockStructs = new List<BlockStruct>();
+			//var instance = Instantiate(triangleBlockPrefab, currTriangle.position, Quaternion.identity) as GameObject;
+			for (var j = 0; j < currTriangle.triangles.Length; j++)
+			{
+				if (currTriangle.triangles[j]) {
+					var gameObject = GenerateTriangleGameObject(currTriangle.position);
+					gameObject.GetComponent<MeshFilter>().mesh = meshes[j];
+					gameObject.GetComponent<MeshRenderer>().material = layer.material;
+					gameObject.transform.parent = root.transform;
 
-	// 	for (var i = 0; i < blocks.Count; i++)
-	// 	{
-	// 		var block = blocks[i];
-	// 		if (block.top || block.right || block.bottom || block.left)
-	// 		{	
-	// 			BlockStruct blockStruct = new BlockStruct();
+					//root.transform.parent = instance.transform;
+					//currTriangle.triangles[j] = gameObject;
+				}
+			}
+		}
+	}
 
-	// 			blockStruct.position = block.position;
-	// 			blockStruct.top = block.top;
-	// 			blockStruct.right = block.right;
-	// 			blockStruct.bottom = block.bottom;
-	// 			blockStruct.left = block.left;
-				
-	// 			blockStructs.Add(blockStruct);
-	// 		}
-	// 	}
+	string GetValidPath (string path = "Assets/ScriptableObjects/Generated/layer_data.asset")
+	{
+		string validPath = path;
+		int postFix = 0;
 
-	// 	layer.blocks = blockStructs.ToArray();
-	// 	AssetDatabase.CreateAsset(layer, "Assets/ScriptableObjects.asset");
+		while (System.IO.File.Exists(validPath)) {
+			validPath = path.Replace(".asset", "_" + postFix.ToString() + ".asset");
+			postFix++;
+		}
 
-	// }
-
+		return validPath;
+	}
 }

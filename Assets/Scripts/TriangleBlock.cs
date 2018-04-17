@@ -5,13 +5,12 @@ using UnityEngine;
 public enum TriangleLocation { UP, LEFT, DOWN, RIGHT }
 public class TriangleBlock : MonoBehaviour
 {
-
 	[System.Serializable]
 	public struct Struct
 	{
 		public bool[] triangles;
 		public Vector3 position;
-		public Struct (Vector3 _position, GameObject[] _triangles) 
+		public Struct (Vector3 _position, GameObject[] _triangles)
 		{
 			position = _position;
 			triangles = new bool[4] {

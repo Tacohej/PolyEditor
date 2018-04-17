@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Test2
+  m_Name: Foreground
   m_Shader: {fileID: 4800000, guid: e174372090bb6de42912c87d9220a7b2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -72,7 +72,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _BottomColor: {r: 0.18867922, g: 0.1468494, b: 0.1468494, a: 1}
+    - _BottomColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TopColor: {r: 0.20372018, g: 0.27606863, b: 0.3962264, a: 1}
+    - _TopColor: {r: 0.3602941, g: 0.05033521, b: 0.05033521, a: 1}

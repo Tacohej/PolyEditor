@@ -6,16 +6,17 @@
 3. Fix Shader
 4. Try merging all meshes
 5. Optimize colliders
+6. Optimize saves
 
 
 # In progress
 
-1. New structure
+1. Import to level
 
-TriangleBlock
 
-  position
-  marker
-  gameObjects
+# Notes
 
-  GenerateStruct
+
+
+spara storlek när lager sparas så det går att räkna ut 
+vilka som är grannar
