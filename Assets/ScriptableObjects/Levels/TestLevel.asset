@@ -9,11 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 518a3b66b0db42742a74f74eefd12b73, type: 3}
-  m_Name: Level_2
+  m_Name: TestLevel
   m_EditorClassIdentifier: 
   levelName: New level
   levelDescription: Probably useful sometimes...
   layers:
-  - {fileID: 11400000, guid: 8d224ab9392a4b846860d453ea481d32, type: 2}
-  - {fileID: 11400000, guid: 05e63dcd5a7a4104486fcf50ce6f581c, type: 2}
-  - {fileID: 11400000, guid: 2b52a6ec5bd26454c9cbe8e30c6b1f52, type: 2}
+  - {fileID: 11400000, guid: e0e5fabf0cedea441aac31c14680f6bd, type: 2}

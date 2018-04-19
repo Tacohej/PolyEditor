@@ -1,20 +1,26 @@
-# Todo
+### Todo
 
-0. Grid size
-1. Layers - fix z values
-2. Parallax effect
-3. Fix Shader
-4. Try merging all meshes
-5. Optimize colliders
-6. Optimize saves
+* Improve Shader
+* Grid size
+* Optimize saves
+* Editor save/load
+* Optimize triangles
 
+### In progress
 
-# In progress
-
-1. Import to level
+* Refactor
 
 
-# Notes
+### Done
+
+* Fix colliders
+* Try merging all meshes
+* Parallax effect
+* Import to level
+* Layers - fix z values
+
+
+### Notes
 
 
 

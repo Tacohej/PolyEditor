@@ -140,9 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c8df475bd3db44c8bc41abbf06ee7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triangleBlockPrefab: {fileID: 1398712939054602, guid: bdbbfa9bf447b044b992a3c405498d5a,
-    type: 2}
-  testLevel: {fileID: 0}
+  testLevel: {fileID: 11400000, guid: 744035404524e504181ce8f495f7d802, type: 2}
+  loadLevel: 1
 --- !u!4 &1418965657
 Transform:
   m_ObjectHideFlags: 0
