@@ -22,9 +22,5 @@ public class EditorScript : Editor {
 		{
 			levelEditor.SaveLevel();
 		}
-
-
 	}
-
-
 }
