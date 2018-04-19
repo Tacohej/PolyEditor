@@ -4,6 +4,7 @@
 * Repair LoadAsOneMesh
 * Handle multible layers - Edit
 * Zoom with wheel
+* Setup ssh: https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
 
 * Edit Levels
 * Shader for single mesh
