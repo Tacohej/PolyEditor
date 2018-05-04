@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class ParallaxLayer : MonoBehaviour
 {
 	private Camera mainCamera;
-
 	private float sortOrder;
-	private float parallaxWeight = 0;
+	public float parallaxWeight = 0;
 	public void SetCamera (Camera newCamera)
 	{
 		mainCamera = newCamera;
@@ -20,8 +20,15 @@ public class ParallaxLayer : MonoBehaviour
 	{
 		parallaxWeight = newParallaxWeight;
 	}
-	void LateUpdate ()
+
+	void Update ()
 	{
+		// fix
+		if (!mainCamera)
+		{
+			mainCamera = Camera.main;
+		}
+
 		if (mainCamera)
 		{
 			this.transform.position = (Vector2)mainCamera.transform.position * parallaxWeight;

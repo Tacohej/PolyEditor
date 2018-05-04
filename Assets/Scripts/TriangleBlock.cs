@@ -28,7 +28,7 @@ public class TriangleBlock : MonoBehaviour
 	{
 		var meshFilter = this.gameObject.AddComponent<MeshFilter>();
 		this.gameObject.AddComponent<MeshRenderer>();
-		meshFilter.mesh = MeshUtility.GenerateMarker();
+		//meshFilter.mesh = MeshUtility.GenerateMarker();
 		triangles = new GameObject[4];
 	}
 

@@ -3,23 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+public class LevelEditorLayer {
+	public List<GameObject> triangleBlocks;
+	public GameObject root;
+
+	public LevelEditorLayer (GameObject parentRoot, string name) {
+		triangleBlocks = new List<GameObject>();
+		root = new GameObject();
+		root.transform.parent = parentRoot.transform;
+		root.name = name;
+	}
+	public void GenerateGrid (int size)
+	{
+		for (var y = size; y > -size; y--) 
+		{
+			for (var x = -size; x < size; x++) 
+			{
+				var instance = new GameObject();
+				instance.AddComponent<TriangleBlock>();
+				instance.transform.position = new Vector3(x,y,0);
+				instance.transform.parent = root.transform;
+				triangleBlocks.Add(instance);
+			}
+		}
+	}
+}
+
+public class LevelEditorLevel {
+	public List<LevelEditorLayer> layers;
+	public GameObject root;
+
+	public LevelEditorLevel (){
+		layers = new List<LevelEditorLayer>();
+		root = new GameObject();
+		root.name = "Level";
+	}
+}
+
 public class LevelEditor : MonoBehaviour 
 {
-	private List<GameObject> triangleBlocks;
-	private GameObject levelRoot;
 	private Camera mainCamera;
 	private Mesh[] meshes;
 	private int size = 10;
+	private int currentLayer;
+
+	[SerializeField]
+	private LevelEditorLevel level;
 	public Level testLevel;
+	public int nrOfLayers = 3;
 
 	void Start ()
 	{
 		mainCamera = Camera.main;
-		meshes = MeshUtility.GenerateMeshes();
-		triangleBlocks = new List<GameObject>();
-		levelRoot = new GameObject();
-		levelRoot.name = "levelLayer";
-		GenerateGrid(size);
+		// meshes = MeshUtility.GenerateMeshes();
+
+		// GenerateGrid(size);
+
+		level = new LevelEditorLevel();
+
+		for (var i = 0; i < nrOfLayers; i++){
+			var layer = new LevelEditorLayer(level.root, "layer_" + i);
+			layer.GenerateGrid(size);
+			level.layers.Add(layer);
+
+		}
 	}
 
 	void Update ()
@@ -27,20 +74,27 @@ public class LevelEditor : MonoBehaviour
 		// todo: break out to camera controller
 		var mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
+
+		if (Input.GetKeyDown(KeyCode.Tab))
+		{
+			currentLayer = (currentLayer + 1)  % nrOfLayers;
+			print(currentLayer);
+		}
+
 		if (Input.GetMouseButton(0))
 		{
-			HandleLeftMouseButton(mousePos);
+			HandleLeftMouseButton(mousePos, level.layers[currentLayer]);
 		}
 
 		if (Input.GetMouseButton(1))
 		{
-			HandleRightMouseButton(mousePos);
+			HandleRightMouseButton(mousePos, level.layers[currentLayer]);
 		}
 	}
 
-	void HandleLeftMouseButton (Vector3 mousePos)
+	void HandleLeftMouseButton (Vector3 mousePos, LevelEditorLayer layer)
 	{
-		var closestBlock =  GetClosestBlock(mousePos, triangleBlocks);
+		var closestBlock =  GetClosestBlock(mousePos, layer.triangleBlocks);
 		float angle = GetAngleDegFromPoints(closestBlock.transform.position, mousePos);
 		TriangleLocation location = GetTriangleLocationFromAngle(angle);
 		int triangleLocation = (int)location;
@@ -57,9 +111,9 @@ public class LevelEditor : MonoBehaviour
 		}
 	}
 
-	void HandleRightMouseButton (Vector3 mousePos)
+	void HandleRightMouseButton (Vector3 mousePos, LevelEditorLayer layer)
 	{
-		var closestBlock =  GetClosestBlock(mousePos, triangleBlocks);
+		var closestBlock =  GetClosestBlock(mousePos, layer.triangleBlocks);
 		float angle = GetAngleDegFromPoints(closestBlock.transform.position, mousePos);
 		TriangleLocation location = GetTriangleLocationFromAngle(angle);
 		int triangleLocation = (int)location;
@@ -125,20 +179,6 @@ public class LevelEditor : MonoBehaviour
 			return TriangleLocation.RIGHT;
 	}
 
-	void GenerateGrid (int size)
-	{
-		for (var y = size; y > -size; y--) 
-		{
-			for (var x = -size; x < size; x++) 
-			{
-				var instance = new GameObject();
-				instance.AddComponent<TriangleBlock>();
-				instance.transform.position = new Vector3(x,y,0);
-				instance.transform.parent = levelRoot.transform;
-				triangleBlocks.Add(instance);
-			}
-		}
-	}
 
 	GameObject GenerateTriangleGameObject (Vector3 position)
 	{
@@ -152,24 +192,24 @@ public class LevelEditor : MonoBehaviour
 	public void SaveLevel () 
 	{
 		// todo: save more than one layer
-		SaveLayer();
+		// SaveLayer();
 	}
 
 	public void LoadLevel ()
 	{
 		for(var i = 0; i < testLevel.layers.Count; i++) {
-			LoadLayer(testLevel.layers[i]);
+			LoadLayerAsOneMesh(testLevel.layers[i]);
 		}
 	}
 
-	public void SaveLayer ()
+	public void SaveLayer (LevelEditorLayer editorLayer)
 	{
 		LevelLayer layer = ScriptableObject.CreateInstance<LevelLayer>();
 		List<TriangleBlock.Struct> structs = new List<TriangleBlock.Struct>();
 
-		for (var i = 0; i < triangleBlocks.Count; i++)
+		for (var i = 0; i < editorLayer.triangleBlocks.Count; i++)
 		{
-			var block = triangleBlocks[i];
+			var block = editorLayer.triangleBlocks[i];
 			var triangleBlock = block.GetComponent<TriangleBlock>();
 
 			if (triangleBlock.hasTriangles())

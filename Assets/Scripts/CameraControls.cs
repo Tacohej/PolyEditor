@@ -28,10 +28,17 @@ public class CameraControls : MonoBehaviour {
 		// Apply zoom to camera
 		if (mouseScrollInput != 0)
 		{
-			editorCamera.orthographicSize = Mathf.Clamp(editorCamera.orthographicSize - realZoomSpeed, maxZoom, minZoom);
+			editorCamera.orthographicSize = Mathf.Clamp(
+				editorCamera.orthographicSize - realZoomSpeed, 
+				maxZoom, 
+				minZoom
+			);
 		}
 
 		// Apply panning to camera postion
-		this.transform.position += new Vector3(horizontalInput * realPanSpeed, verticalInput * realPanSpeed, 0);
+		this.transform.position += new Vector3(
+			horizontalInput * realPanSpeed,
+			verticalInput * realPanSpeed, 0
+		);
 	}
 }
