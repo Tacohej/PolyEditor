@@ -9,7 +9,13 @@
 * Setup Camera from script
 
 ### In progress
+
+* Try everything without prefabs
+* Resume Editor - save and then load
+
+
 * Handle multible layers - Edit
+
 
 ### Done
 

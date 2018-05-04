@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: level_2
+  m_Name: level_0
   m_EditorClassIdentifier: Assembly-CSharp:PolyEditor:LevelData
   layers:
-  - name: Layer
+  - name: Layer(Clone)
     zPosition: 0
     parallaxWeight: 0
     collidable: 0
@@ -99,25 +99,25 @@ MonoBehaviour:
       triangles: 00000000
     - position: {x: -2, y: 4, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: -5, z: 0}
+    - position: {x: -1, y: -5, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: -4, z: 0}
+    - position: {x: -1, y: -4, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: -3, z: 0}
+    - position: {x: -1, y: -3, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: -2, z: 0}
+    - position: {x: -1, y: -2, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: -1, z: 0}
+    - position: {x: -1, y: -1, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: 0, z: 0}
+    - position: {x: -1, y: 0, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: 1, z: 0}
+    - position: {x: -1, y: 1, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: 2, z: 0}
+    - position: {x: -1, y: 2, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: 3, z: 0}
+    - position: {x: -1, y: 3, z: 0}
       triangles: 00000000
-    - position: {x: -0.99999994, y: 4, z: 0}
+    - position: {x: -1, y: 4, z: 0}
       triangles: 00000000
     - position: {x: 0, y: -5, z: 0}
       triangles: 00000000
@@ -126,15 +126,15 @@ MonoBehaviour:
     - position: {x: 0, y: -3, z: 0}
       triangles: 00000000
     - position: {x: 0, y: -2, z: 0}
-      triangles: 01010000
+      triangles: 00000000
     - position: {x: 0, y: -1, z: 0}
-      triangles: 00000101
+      triangles: 00000000
     - position: {x: 0, y: 0, z: 0}
-      triangles: 01000001
+      triangles: 00000000
     - position: {x: 0, y: 1, z: 0}
-      triangles: 01000101
+      triangles: 00000000
     - position: {x: 0, y: 2, z: 0}
-      triangles: 00000101
+      triangles: 00000000
     - position: {x: 0, y: 3, z: 0}
       triangles: 00000000
     - position: {x: 0, y: 4, z: 0}
@@ -148,13 +148,13 @@ MonoBehaviour:
     - position: {x: 1, y: -2, z: 0}
       triangles: 00000000
     - position: {x: 1, y: -1, z: 0}
-      triangles: 01010100
+      triangles: 00000000
     - position: {x: 1, y: 0, z: 0}
-      triangles: 00010100
+      triangles: 00000000
     - position: {x: 1, y: 1, z: 0}
       triangles: 00000000
     - position: {x: 1, y: 2, z: 0}
-      triangles: 00010000
+      triangles: 00000000
     - position: {x: 1, y: 3, z: 0}
       triangles: 00000000
     - position: {x: 1, y: 4, z: 0}

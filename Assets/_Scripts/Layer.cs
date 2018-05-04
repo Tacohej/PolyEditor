@@ -26,7 +26,7 @@ namespace PolyEditor
 		public bool collidable;
 		private TriangleBlock[,] triangleBlocks;
 
-		void Start ()
+		public void Create ()
 		{
 			triangleBlocks = new TriangleBlock[gridSize.x,gridSize.y];
 			GenerateGrid();
@@ -73,7 +73,9 @@ namespace PolyEditor
 			{
 				for (var x = 0; x < gridSize.x; x++)
 				{
-					Vector3 position = new Vector3(x - gridSize.x/2,y - gridSize.y/2,0);
+					float xPos = x - (gridSize.x - 1) * 0.5f;
+					float yPos = y - (gridSize.y - 1) * 0.5f;
+					Vector3 position = new Vector3(xPos, yPos, 0);
 					var instance = Instantiate<TriangleBlock>(triangleBlockPrefab, position, this.transform.rotation);
 					instance.transform.parent = gameObject.transform;
 					triangleBlocks[x, y] = instance;

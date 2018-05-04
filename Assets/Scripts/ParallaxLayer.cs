@@ -23,7 +23,7 @@ public class ParallaxLayer : MonoBehaviour
 
 	void Update ()
 	{
-		// fix
+		// todo: fix
 		if (!mainCamera)
 		{
 			mainCamera = Camera.main;

@@ -8,18 +8,30 @@ namespace PolyEditor
 	{
 		public LayerData[] layers;
 	}
-
 	public class Level : MonoBehaviour
 	{
 		public List<Layer> layers;
-		
-		[HideInInspector]
-		public Layer currentLayer;
+		public Layer layerPrefab;
+		private Layer currentLayer;
 
+		void Start ()
+		{
+			layers = new List<Layer>();
+		}
 
-		void Start () {
-			// layers = new List<Layer>();
-			currentLayer = layers[0];
+		public Layer GetCurrentLayer ()
+		{
+			return currentLayer;
+		}
+
+		public void CreateNewLayer ()
+		{
+			Layer layer = Instantiate(layerPrefab, this.transform.position, this.transform.rotation);
+			layer.transform.parent = this.transform;
+			layer.Create();
+
+			currentLayer = layer; // todo: create activateLayer with z position and alpha
+			layers.Add(layer);
 		}
 
 		public LevelData ToAsset ()
@@ -31,6 +43,7 @@ namespace PolyEditor
 			{
 				levelData.layers[i] = layers[i].ToData();
 			}
+
 			return levelData;
 		}
 	}
