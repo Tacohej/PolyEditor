@@ -10,7 +10,9 @@ namespace PolyEditor
 		public Level levelPrefab;
 		private Level level;
 		private Camera mainCamera;
-		private Mesh[] meshes;
+		
+		[HideInInspector]
+		public Mesh[] meshes;
 
 		// todo: temp
 		public LevelData levelData;
@@ -24,29 +26,19 @@ namespace PolyEditor
 		{
 			var mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
-			if (IsPointerOverUIObject())
+			if (IsPointerOverUIObject() || level == null)
 			{
 				return;
 			}
 
 			if (Input.GetMouseButton(0))
 			{
-				level.GetCurrentLayer().AddClosestTriangle(mousePos, meshes);
+				level.GetCurrentLayer().AddClosestTriangle(mousePos);
 			}
 
 			if (Input.GetMouseButton(1))
 			{
 				level.GetCurrentLayer().RemoveClosestTriangle(mousePos);
-			}
-
-			if (Input.GetKeyDown(KeyCode.L))
-			{
-				SaveLevelAsset();
-			}
-
-			if (Input.GetKeyDown(KeyCode.Space))
-			{
-				AddNewLayer();
 			}
 
 		}
@@ -57,7 +49,7 @@ namespace PolyEditor
 			{
 				level = Instantiate(levelPrefab);
 			}
-			level.CreateNewLayer();
+			level.AddNewLayer();
 		}
 
 		public void SaveLevelAsset ()
@@ -67,7 +59,8 @@ namespace PolyEditor
 
 		public void LoadLevelAsset () 
 		{
-			print("todo");
+			level = Instantiate(levelPrefab, this.transform.position, this.transform.rotation);
+			level.Load(levelData);
 		}
 
 		string GetValidPath (string path = "Assets/ScriptableObjects/Generated/SavedLevels/level.asset")

@@ -4,17 +4,14 @@ using UnityEngine;
 
 namespace PolyEditor
 {
-	public class LevelData : ScriptableObject
-	{
-		public LayerData[] layers;
-	}
 	public class Level : MonoBehaviour
 	{
-		public List<Layer> layers;
 		public Layer layerPrefab;
+		
+		private List<Layer> layers;
 		private Layer currentLayer;
 
-		void Start ()
+		void Awake()
 		{
 			layers = new List<Layer>();
 		}
@@ -24,7 +21,7 @@ namespace PolyEditor
 			return currentLayer;
 		}
 
-		public void CreateNewLayer ()
+		public void AddNewLayer ()
 		{
 			Layer layer = Instantiate(layerPrefab, this.transform.position, this.transform.rotation);
 			layer.transform.parent = this.transform;
@@ -32,6 +29,15 @@ namespace PolyEditor
 
 			currentLayer = layer; // todo: create activateLayer with z position and alpha
 			layers.Add(layer);
+		}
+
+		public void Load (LevelData data)
+		{
+			for (var i = 0; i < data.layers.Length; i++) 
+			{
+				var layerInstance = Instantiate(layerPrefab, transform.position, transform.rotation);
+				layerInstance.Load(data.layers[i]);
+			}
 		}
 
 		public LevelData ToAsset ()

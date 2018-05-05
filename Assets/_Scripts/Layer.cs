@@ -4,26 +4,12 @@ using UnityEngine;
 
 namespace PolyEditor
 {
-	[System.Serializable]
-	public struct LayerData {
-		public string name;
-		public float zPosition;
-		public float parallaxWeight;
-		public bool collidable;
-		public Material material;
-		public Vector2 gridSize; // todo: replace with index in datablocks
-		public TriangleBlockData[] triangleDataBlocks;
-	}
-
 	public class Layer : MonoBehaviour
 	{
 		public Vector2Int gridSize;
-		public Vector2 spacing;
-		public Material material;
 		public TriangleBlock triangleBlockPrefab;
 		public float zPosition = 0; // todo: set properly
 		public float parallaxWeight;
-		public bool collidable;
 		private TriangleBlock[,] triangleBlocks;
 
 		public void Create ()
@@ -32,12 +18,29 @@ namespace PolyEditor
 			GenerateGrid();
 		}
 
-		public void AddClosestTriangle (Vector3 position, Mesh[] triangleMeshes)
+		public void Load (LayerData layer)
+		{
+			gridSize = layer.gridSize;
+			zPosition = layer.zPosition;
+			parallaxWeight = layer.parallaxWeight;
+			triangleBlocks = new TriangleBlock[gridSize.x, gridSize.y];
+			GenerateGrid();
+
+			for (var y = 0; y < gridSize.y; y++)
+			{
+				for (var x = 0; x < gridSize.x; x++)
+				{
+					triangleBlocks[x,y].Load(layer.triangleDataBlocks[x * gridSize.x + y]);
+				}
+			}
+		}
+
+		public void AddClosestTriangle (Vector3 position)
 		{
 			position = new Vector3(position.x, position.y, zPosition);
 			var triangleBlock = GetClosestBlock(position);
 			var location = GetTriangleLocationFromPositions(triangleBlock.transform.position, position);
-			triangleBlock.AddTriangle(location, triangleMeshes);
+			triangleBlock.AddTriangle(location);
 		}
 
 		public void RemoveClosestTriangle (Vector3 position) 
@@ -54,7 +57,6 @@ namespace PolyEditor
 			layerData.name = name;
 			layerData.zPosition = zPosition;
 			layerData.parallaxWeight = parallaxWeight;
-			layerData.material = material;
 			layerData.gridSize = gridSize;
 			layerData.triangleDataBlocks = new TriangleBlockData[gridSize.x * gridSize.y];
 			for (var y = 0; y < gridSize.y; y++)
