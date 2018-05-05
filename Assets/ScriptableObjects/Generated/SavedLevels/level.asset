@@ -8,7 +8,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 1ff7781b8e5abca4eaf7166f23969ee7, type: 3}
   m_Name: level
-  m_EditorClassIdentifier: Assembly-CSharp:PolyEditor:LevelData
-  layers: []
+  m_EditorClassIdentifier: 
+  layers:
+  - name: Layer(Clone)
+    zPosition: 0
+    parallaxWeight: 0
+    gridSize: {x: 3, y: 3}
+    triangleDataBlocks:
+    - position: {x: -1, y: -1, z: 0}
+      triangles: 00000000
+    - position: {x: -1, y: 0, z: 0}
+      triangles: 00000001
+    - position: {x: -1, y: 1, z: 0}
+      triangles: 00000101
+    - position: {x: 0, y: -1, z: 0}
+      triangles: 00000000
+    - position: {x: 0, y: 0, z: 0}
+      triangles: 00010101
+    - position: {x: 0, y: 1, z: 0}
+      triangles: 00000000
+    - position: {x: 1, y: -1, z: 0}
+      triangles: 01000001
+    - position: {x: 1, y: 0, z: 0}
+      triangles: 00010100
+    - position: {x: 1, y: 1, z: 0}
+      triangles: 00000000

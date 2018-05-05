@@ -2,46 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TriangleLocation { UP, LEFT, DOWN, RIGHT }
-public class TriangleBlock : MonoBehaviour
+namespace PolyEditor
 {
-	[System.Serializable]
-	public struct Struct
+	public enum TriangleLocation { UP, LEFT, DOWN, RIGHT }
+	public class TriangleBlock : MonoBehaviour
 	{
-		public bool[] triangles;
-		public Vector3 position;
-		public Struct (Vector3 _position, GameObject[] _triangles)
+		private GameObject[] triangles = new GameObject[4];
+
+		public void AddTriangle(TriangleLocation location)
 		{
-			position = _position;
-			triangles = new bool[4] {
-				_triangles[0],
-				_triangles[1],
-				_triangles[2],
-				_triangles[3]
-			};
+			var index = (int)location;
+
+			if (!triangles[index])
+			{
+				CreateTriangle(index);
+			}
 		}
-	}
 
-	public GameObject[] triangles;
+		public TriangleBlockData ToData ()
+		{
+			var data = new TriangleBlockData();
+			data.triangles = new bool[4];
+			data.position = this.transform.position;
+			data.triangles[0] = !!triangles[0];
+			data.triangles[1] = !!triangles[1];
+			data.triangles[2] = !!triangles[2];
+			data.triangles[3] = !!triangles[3];
+			return data;
+		}
 
-	void Start ()
-	{
-		var meshFilter = this.gameObject.AddComponent<MeshFilter>();
-		this.gameObject.AddComponent<MeshRenderer>();
-		//meshFilter.mesh = MeshUtility.GenerateMarker();
-		triangles = new GameObject[4];
-	}
+		public void Load (TriangleBlockData data) {
+			for (var i = 0; i < 4; i++){
+				if (data.triangles[i])
+				{
+					CreateTriangle(i);
+				}
+			}
+		}
 
-	public Struct GenerateStruct ()
-	{
-		return new Struct(this.transform.position, triangles);
-	}
+		public void RemoveTriangle (int index)
+		{
+			if(triangles[index]){
+				triangles[index].transform.parent = null;
+				Destroy(triangles[index]);
+				triangles[index] = null;
+			}
+		}
 
-	public bool hasTriangles () {
-		return triangles[0] != null ||
-			triangles[1] != null ||
-			triangles[2] != null || 
-			triangles[3] != null;
+		Mesh GetMesh (int index) 
+		{
+			return GameObject.Find("PolyEditor").GetComponent<Editor>().meshes[index];
+		} 
+
+		void CreateTriangle (int index) {
+			var triangle = GenerateTriangleGameObject(this.transform.position);
+			var mesh = GetMesh(index);
+			triangle.GetComponent<MeshFilter>().mesh = mesh;
+			triangle.transform.parent = this.transform;
+			triangles[index] = triangle;
+		} 
+
+		GameObject GenerateTriangleGameObject (Vector3 position)
+		{
+			GameObject gameObject = new GameObject();
+			gameObject.AddComponent<MeshFilter>();
+			gameObject.AddComponent<MeshRenderer>();
+			gameObject.transform.position = position;
+			return gameObject;
+		}
 	}
 }
 

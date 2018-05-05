@@ -10,15 +10,16 @@
 
 ### In progress
 
-* Try everything without prefabs
-* Resume Editor - save and then load
-
-
+* parent handling on load
+* export level as prefab
 * Handle multible layers - Edit
+
 
 
 ### Done
 
+* Try everything without prefabs - didnt work!?
+* Resume Editor - save and then load
 * Zoom with wheel
 * Editor save/load
 * Refactor

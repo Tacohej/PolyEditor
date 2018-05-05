@@ -156,7 +156,7 @@ Prefab:
         type: 2}
       propertyPath: levelData
       value: 
-      objectReference: {fileID: 11400000, guid: 0a3c0ff529fb5fe43a0878147f84e9ce,
+      objectReference: {fileID: 11400000, guid: cc78ae53766db744e8e53d78eb1b54dc,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6183f32f34f3db49b136ef2ebe4eb51, type: 2}
