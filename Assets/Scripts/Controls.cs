@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraControls : MonoBehaviour {
+public class Controls : MonoBehaviour {
 	public float panSpeed = 10f;
 	public float zoomSpeed = 5f;
 	
+	private float maxZoom = 1f;
+	private float minZoom = 20f;
 	private Camera editorCamera;
-	private float maxZoom = 1;
-	private float minZoom = 20;
-
+	
 	void Start()
 	{
 		editorCamera = GetComponent<Camera>();
+
 	}
 	void Update ()
 	{

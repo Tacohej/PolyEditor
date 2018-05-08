@@ -36,6 +36,7 @@ namespace PolyEditor
 			for (var i = 0; i < data.layers.Length; i++) 
 			{
 				var layerInstance = Instantiate(layerPrefab, transform.position, transform.rotation);
+				layerInstance.transform.parent = this.transform;
 				layerInstance.Load(data.layers[i]);
 			}
 		}

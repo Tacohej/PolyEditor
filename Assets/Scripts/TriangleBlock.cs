@@ -18,7 +18,6 @@ namespace PolyEditor
 				CreateTriangle(index);
 			}
 		}
-
 		public TriangleBlockData ToData ()
 		{
 			var data = new TriangleBlockData();
@@ -30,7 +29,6 @@ namespace PolyEditor
 			data.triangles[3] = !!triangles[3];
 			return data;
 		}
-
 		public void Load (TriangleBlockData data) {
 			for (var i = 0; i < 4; i++){
 				if (data.triangles[i])
@@ -39,7 +37,6 @@ namespace PolyEditor
 				}
 			}
 		}
-
 		public void RemoveTriangle (int index)
 		{
 			if(triangles[index]){
@@ -48,20 +45,17 @@ namespace PolyEditor
 				triangles[index] = null;
 			}
 		}
-
-		Mesh GetMesh (int index) 
-		{
-			return GameObject.Find("PolyEditor").GetComponent<Editor>().meshes[index];
-		} 
-
 		void CreateTriangle (int index) {
 			var triangle = GenerateTriangleGameObject(this.transform.position);
 			var mesh = GetMesh(index);
 			triangle.GetComponent<MeshFilter>().mesh = mesh;
 			triangle.transform.parent = this.transform;
 			triangles[index] = triangle;
+		}
+		Mesh GetMesh (int index) 
+		{
+			return GameObject.Find("PolyEditor").GetComponent<Editor>().meshes[index];
 		} 
-
 		GameObject GenerateTriangleGameObject (Vector3 position)
 		{
 			GameObject gameObject = new GameObject();

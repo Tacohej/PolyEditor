@@ -8,30 +8,6 @@ namespace PolyEditor {
 	{
 		private const float z_value = 0;
 
-		public static Mesh GenerateMarker (float size = 0.1f) {
-			Mesh mesh = new Mesh();
-			mesh.vertices = new Vector3[]
-			{
-				new Vector3(-size, 0, z_value),
-				new Vector3(0, size, z_value),
-				new Vector3(size, 0, z_value),
-				new Vector3(0, -size, z_value),
-			};
-			mesh.triangles = new int[] {0, 1, 2, 0, 2, 3};
-			mesh.uv = new Vector2[]
-			{
-				new Vector2(0,0),
-				new Vector2(0,1),
-				new Vector2(1,1),
-				new Vector2(1,0),
-			};
-
-			mesh.RecalculateNormals();
-			mesh.RecalculateBounds();
-
-			return mesh;
-		}
-
 		public static Mesh[] GenerateMeshes ()
 		{
 			var size = .5f;

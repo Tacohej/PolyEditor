@@ -8,7 +8,7 @@ namespace PolyEditor
 	{
 		public Vector2Int gridSize;
 		public TriangleBlock triangleBlockPrefab;
-		public float zPosition = 0; // todo: set properly
+		public float zPosition;
 		public float parallaxWeight;
 		private TriangleBlock[,] triangleBlocks;
 
@@ -85,13 +85,6 @@ namespace PolyEditor
 			}
 		}
 
-		float GetAngleDegFromPoints (Vector3 center, Vector3 target)
-		{
-			Vector2 dir = target - center;
-			float angle = Mathf.Atan2 (dir.y, dir.x) * Mathf.Rad2Deg;
-			return angle < 0 ? angle + 360 : angle;
-		}
-
 		TriangleBlock GetClosestBlock(Vector3 position)
 		{
 			TriangleBlock closestBlock = triangleBlocks[0,0];
@@ -114,17 +107,21 @@ namespace PolyEditor
 			return closestBlock;
 		}
 
-		TriangleLocation GetTriangleLocationFromPositions (Vector3 center, Vector3 target)
+		TriangleLocation GetTriangleLocationFromPositions(Vector3 center, Vector3 target)
 		{
-			var angle = GetAngleDegFromPoints(center, target);
-			if (angle > 45 && angle < 135)
-				return TriangleLocation.UP;
-			else if (angle > 45 && angle < 225)
-				return TriangleLocation.LEFT;
-			else if (angle > 45 && angle < 315)
-				return TriangleLocation.DOWN;
-			else
-				return TriangleLocation.RIGHT;
+			var dir = target - center;
+			if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+			{
+				return dir.x > 0 
+					? TriangleLocation.RIGHT 
+					: TriangleLocation.LEFT;
+			} 
+				else
+			{
+				return dir.y > 0 
+					? TriangleLocation.UP
+					: TriangleLocation.DOWN;
+			}
 		}
 	}
 }

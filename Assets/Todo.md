@@ -1,23 +1,23 @@
 ### Todo
 
-* Handle triangleBlocks around self
-
-* Edit Levels
+* Materials
 * Shader for single mesh
 * Optimize colliders
 * Optimize triangles
 * Setup Camera from script
+* Handle layer values & UI
 
 ### In progress
 
-* parent handling on load
 * export level as prefab
-* Handle multible layers - Edit
 
 
 
 ### Done
 
+* Edit Levels
+* parent handling on load
+* Handle triangleBlocks around self
 * Try everything without prefabs - didnt work!?
 * Resume Editor - save and then load
 * Zoom with wheel
