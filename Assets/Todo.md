@@ -9,12 +9,12 @@
 
 ### In progress
 
-* export level as prefab
-
+* Colliders
 
 
 ### Done
 
+* export level as prefab
 * Edit Levels
 * parent handling on load
 * Handle triangleBlocks around self
@@ -34,7 +34,6 @@
 
 
 Import / Export
-
 Level
 LevelStruct
 Layer
@@ -42,5 +41,4 @@ LayerStruct
 TriangleBlock - triangles
 TriangleBlockStruct
 Utility
-
 AssetGenerator

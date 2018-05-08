@@ -14,6 +14,8 @@ namespace PolyEditor{
 		public string name;
 		public float zPosition;
 		public float parallaxWeight;
+
+		public bool isCollidable;
 		public Vector2Int gridSize; // todo: replace with index in datablocks
 		public TriangleBlockData[] triangleDataBlocks;
 	}

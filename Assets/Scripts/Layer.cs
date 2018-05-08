@@ -6,7 +6,10 @@ namespace PolyEditor
 {
 	public class Layer : MonoBehaviour
 	{
+		// Public
 		public Vector2Int gridSize;
+
+		// Private
 		public TriangleBlock triangleBlockPrefab;
 		public float zPosition;
 		public float parallaxWeight;

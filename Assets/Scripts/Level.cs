@@ -6,8 +6,10 @@ namespace PolyEditor
 {
 	public class Level : MonoBehaviour
 	{
+		// Public
 		public Layer layerPrefab;
 		
+		// Private
 		private List<Layer> layers;
 		private Layer currentLayer;
 

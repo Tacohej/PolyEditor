@@ -7,6 +7,7 @@ namespace PolyEditor
 	public enum TriangleLocation { UP, LEFT, DOWN, RIGHT }
 	public class TriangleBlock : MonoBehaviour
 	{
+		// Private
 		private GameObject[] triangles = new GameObject[4];
 
 		public void AddTriangle(TriangleLocation location)
@@ -54,7 +55,7 @@ namespace PolyEditor
 		}
 		Mesh GetMesh (int index) 
 		{
-			return GameObject.Find("PolyEditor").GetComponent<Editor>().meshes[index];
+			return GameObject.Find("PolyEditor").GetComponent<Editor>().GetTriangleMeshes()[index];
 		} 
 		GameObject GenerateTriangleGameObject (Vector3 position)
 		{
