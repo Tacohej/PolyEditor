@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parallaxWeight: 0.5
+  zPosition: 0
 --- !u!114 &114963513131801514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -64,8 +65,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d22d1447fc53649b684f819ae4a664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 10, y: 10}
+  gridSize: {x: 3, y: 3}
   triangleBlockPrefab: {fileID: 114768887113317284, guid: 61ac8dbc9d2d619458638619c52c4bd3,
     type: 2}
-  zPosition: 0
-  parallaxWeight: 0

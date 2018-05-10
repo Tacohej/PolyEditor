@@ -18,6 +18,7 @@ namespace PolyEditor
 		private Camera mainCamera;
 		private UIControls uiControls;
 		private Mesh[] triangleMeshes;
+		private Layer currentLayer;
 		private string rootPath = "Assets/Generated";
 
 		void Start ()
@@ -37,12 +38,33 @@ namespace PolyEditor
 
 			if (Input.GetMouseButton(0))
 			{
-				level.GetCurrentLayer().AddClosestTriangle(mousePos);
+				currentLayer.AddClosestTriangle(mousePos);
 			}
 
 			if (Input.GetMouseButton(1))
 			{
-				level.GetCurrentLayer().RemoveClosestTriangle(mousePos);
+				currentLayer.RemoveClosestTriangle(mousePos);
+			}
+
+			if (Input.GetKeyDown(KeyCode.Tab))
+			{
+				IncrementCurrentLayer();
+			}
+		}
+
+		public void IncrementCurrentLayer () {
+
+			var layers = level.GetLayers();
+
+			if (layers.Count == 0) { return; }
+
+			for (var i = 0; i <  layers.Count; i++)
+			{
+				if (layers[i] == currentLayer){
+					var newIndex = (i + 1) % layers.Count;
+					SetCurrentLayer(level.GetLayers()[newIndex]);
+					return;
+				}
 			}
 		}
 
@@ -58,7 +80,18 @@ namespace PolyEditor
 				level = Instantiate(levelPrefab);
 				level.transform.parent = this.transform;
 			}
-			level.AddNewLayer();
+			var layer = level.AddNewLayer();
+			SetCurrentLayer(layer);
+		}
+
+		public void SetParallaxWeightCurrentLayer (float newValue)
+		{
+			currentLayer.SetParallaxWeight(newValue);
+		}
+
+		public void SetZPositionCurrentLayer (float newValue)
+		{
+			currentLayer.SetZPosition(newValue);
 		}
 
 		public void SaveLevelAsset ()
@@ -108,6 +141,13 @@ namespace PolyEditor
 
 			PrefabUtility.CreatePrefab(GetValidPath("/Prefabs/level", ".prefab"), levelRoot);
 			DestroyImmediate(levelRoot);
+		}
+
+		void SetCurrentLayer (Layer layer)
+		{
+			currentLayer = layer;
+			uiControls.parallaxWeightSlider.value = layer.GetParallaxWeight();
+			uiControls.zPositionSlider.value = layer.GetZPosition();
 		}
 
 		void AddColliderToLayer (GameObject layer, TriangleBlockData[] triangleBlocks) {

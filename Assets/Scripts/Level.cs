@@ -11,26 +11,24 @@ namespace PolyEditor
 		
 		// Private
 		private List<Layer> layers;
-		private Layer currentLayer;
 
 		void Awake()
 		{
 			layers = new List<Layer>();
 		}
 
-		public Layer GetCurrentLayer ()
+		public List<Layer> GetLayers()
 		{
-			return currentLayer;
+			return layers;
 		}
 
-		public void AddNewLayer ()
+		public Layer AddNewLayer ()
 		{
 			Layer layer = Instantiate(layerPrefab, this.transform.position, this.transform.rotation);
 			layer.transform.parent = this.transform;
 			layer.Create();
-
-			currentLayer = layer; // todo: create activateLayer with z position and alpha
 			layers.Add(layer);
+			return layer;
 		}
 
 		public void Load (LevelData data)

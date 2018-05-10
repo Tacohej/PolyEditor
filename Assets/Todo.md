@@ -1,20 +1,22 @@
 ### Todo
 
+* Current Layer should be visible
 * Materials
 * Shader for single mesh
 * Optimize colliders
 * Optimize triangles
 * Setup Camera from script
-* Handle layer values & UI
+* Refine UI
 
 ### In progress
-
-* Colliders
 
 
 ### Done
 
-* export level as prefab
+* Change layer and change ui values
+* Handle layer values & UI
+* Colliders
+* Export level as prefab
 * Edit Levels
 * parent handling on load
 * Handle triangleBlocks around self
@@ -29,9 +31,7 @@
 * Import to level
 * Layers - fix z values
 
-
 ### Notes
-
 
 Import / Export
 Level

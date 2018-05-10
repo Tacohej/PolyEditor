@@ -4,16 +4,41 @@ using UnityEngine;
 
 namespace PolyEditor
 {
+	[RequireComponent(typeof(ParallaxLayer))]
 	public class Layer : MonoBehaviour
 	{
 		// Public
 		public Vector2Int gridSize;
+		public TriangleBlock triangleBlockPrefab;
 
 		// Private
-		public TriangleBlock triangleBlockPrefab;
-		public float zPosition;
-		public float parallaxWeight;
 		private TriangleBlock[,] triangleBlocks;
+		private ParallaxLayer parallaxComp;
+
+		public void Awake() 
+		{
+			parallaxComp = GetComponent<ParallaxLayer>();
+		}
+
+		public void SetParallaxWeight (float newValue) 
+		{
+			parallaxComp.parallaxWeight = newValue;
+		}
+
+		public float GetParallaxWeight ()
+		{
+			return parallaxComp.parallaxWeight;
+		}
+
+		public void SetZPosition (float newValue)
+		{
+			parallaxComp.zPosition = newValue;
+		}
+
+		public float GetZPosition ()
+		{
+			return parallaxComp.zPosition;
+		}
 
 		public void Create ()
 		{
@@ -24,8 +49,8 @@ namespace PolyEditor
 		public void Load (LayerData layer)
 		{
 			gridSize = layer.gridSize;
-			zPosition = layer.zPosition;
-			parallaxWeight = layer.parallaxWeight;
+			parallaxComp.zPosition = layer.zPosition;
+			parallaxComp.parallaxWeight = layer.parallaxWeight;
 			triangleBlocks = new TriangleBlock[gridSize.x, gridSize.y];
 			GenerateGrid();
 
@@ -40,7 +65,7 @@ namespace PolyEditor
 
 		public void AddClosestTriangle (Vector3 position)
 		{
-			position = new Vector3(position.x, position.y, zPosition);
+			position = new Vector3(position.x, position.y, 0);
 			var triangleBlock = GetClosestBlock(position);
 			var location = GetTriangleLocationFromPositions(triangleBlock.transform.position, position);
 			triangleBlock.AddTriangle(location);
@@ -48,7 +73,7 @@ namespace PolyEditor
 
 		public void RemoveClosestTriangle (Vector3 position) 
 		{
-			position = new Vector3(position.x, position.y, zPosition);
+			position = new Vector3(position.x, position.y, 0);
 			var triangleBlock = GetClosestBlock(position);
 			var location = GetTriangleLocationFromPositions(triangleBlock.transform.position, position);
 			triangleBlock.RemoveTriangle((int)location);
@@ -56,10 +81,11 @@ namespace PolyEditor
 		
 		public LayerData ToData ()
 		{
-			LayerData layerData = new LayerData();
+			var	parallaxComp = GetComponent<ParallaxLayer>();
+			var layerData = new LayerData();
 			layerData.name = name;
-			layerData.zPosition = zPosition;
-			layerData.parallaxWeight = parallaxWeight;
+			layerData.zPosition = parallaxComp.zPosition;
+			layerData.parallaxWeight = parallaxComp.parallaxWeight;
 			layerData.gridSize = gridSize;
 			layerData.triangleDataBlocks = new TriangleBlockData[gridSize.x * gridSize.y];
 			for (var y = 0; y < gridSize.y; y++)
