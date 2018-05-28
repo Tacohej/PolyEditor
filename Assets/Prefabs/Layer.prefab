@@ -65,6 +65,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d22d1447fc53649b684f819ae4a664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 3, y: 3}
+  gridSize: {x: 50, y: 30}
   triangleBlockPrefab: {fileID: 114768887113317284, guid: 61ac8dbc9d2d619458638619c52c4bd3,
     type: 2}

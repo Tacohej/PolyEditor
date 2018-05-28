@@ -32,6 +32,7 @@ Shader "Unlit/GradientTwoColors"
 			{
 				float2 uv : TEXCOORD0;
 				float3 w_pos : TEXCOORD1;
+				float3 screen_pos: TEXCOORD2;
 				float4 vertex : SV_POSITION;
 			};
 
@@ -45,6 +46,7 @@ Shader "Unlit/GradientTwoColors"
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.w_pos = mul(unity_ObjectToWorld, v.vertex);
+				o.screen_pos = ComputeScreenPos(v.vertex);
 				o.uv = v.uv;
 				return o;
 			}
@@ -54,9 +56,16 @@ Shader "Unlit/GradientTwoColors"
 				// sample the texture
 				//fixed4 col = tex2D(_MainTex, i.uv);
 
-				float weight = clamp(0, 1, i.w_pos.y) / 3;
+				float weight = clamp(0, 1, i.screen_pos.y/50);
+				float3 pos = i.vertex;
+				// pos = i.w_pos;
 
-				fixed4 col = lerp(_BottomColor, _TopColor, weight);
+
+				fixed4 col = fixed4(pos, 1);
+				//col = fixed4(i.screen_pos.x, i.screen_pos.y, i.screen_pos.z, 1);
+				
+				
+				//fixed4 col = lerp(_BottomColor, _TopColor, weight);
 				return col;
 			}
 			ENDCG

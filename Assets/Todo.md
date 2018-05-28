@@ -1,15 +1,16 @@
 ### Todo
 
 * Current Layer should be visible
-* Materials
 * Shader for single mesh
 * Optimize colliders
 * Optimize triangles
 * Setup Camera from script
 * Refine UI
+* Materials - upgrade
 
 ### In progress
 
+* Materials - first 
 
 ### Done
 

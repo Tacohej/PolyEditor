@@ -14,10 +14,12 @@ namespace PolyEditor
 		// Private
 		private TriangleBlock[,] triangleBlocks;
 		private ParallaxLayer parallaxComp;
+		private Material material;
 
 		public void Awake() 
 		{
 			parallaxComp = GetComponent<ParallaxLayer>();
+			material = new Material(Shader.Find("Unlit/Color"));
 		}
 
 		public void SetParallaxWeight (float newValue) 
@@ -32,7 +34,12 @@ namespace PolyEditor
 
 		public void SetZPosition (float newValue)
 		{
+			var v = (newValue + 1) / 2;
 			parallaxComp.zPosition = newValue;
+
+			print("v" + v);
+			float colorValue = (v + 4.5f) / 10;
+			material.color = new Color(colorValue, colorValue, colorValue);
 		}
 
 		public float GetZPosition ()
@@ -58,7 +65,19 @@ namespace PolyEditor
 			{
 				for (var x = 0; x < gridSize.x; x++)
 				{
-					triangleBlocks[x,y].Load(layer.triangleDataBlocks[x * gridSize.x + y]);
+					triangleBlocks[x,y].Load(layer.triangleDataBlocks[y * gridSize.x + x], material);
+				}
+			}
+		}
+
+		public void SetAlpha (float alpha)
+		{
+			for (var y = 0; y < gridSize.y; y++)
+			{
+				for (var x = 0; x < gridSize.x; x++)
+				{
+					var c = triangleBlocks[x,y].GetComponent<SpriteRenderer>().color;
+					triangleBlocks[x,y].GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, alpha);
 				}
 			}
 		}
@@ -68,7 +87,7 @@ namespace PolyEditor
 			position = new Vector3(position.x, position.y, 0);
 			var triangleBlock = GetClosestBlock(position);
 			var location = GetTriangleLocationFromPositions(triangleBlock.transform.position, position);
-			triangleBlock.AddTriangle(location);
+			triangleBlock.AddTriangle(location, material);
 		}
 
 		public void RemoveClosestTriangle (Vector3 position) 
@@ -92,7 +111,7 @@ namespace PolyEditor
 			{
 				for (var x = 0; x < gridSize.x; x++) 
 				{
-					layerData.triangleDataBlocks[x * gridSize.x + y] = triangleBlocks[x,y].ToData();
+					layerData.triangleDataBlocks[y * gridSize.x + x] = triangleBlocks[x,y].ToData();
 				}
 			}
 			return layerData;

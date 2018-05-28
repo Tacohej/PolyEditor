@@ -27,6 +27,13 @@ namespace PolyEditor
 			triangleMeshes = MeshUtility.GenerateMeshes();
 			uiControls = GetComponent<UIControls>();
 		}
+
+		void OnDrawGizmos()
+		{
+			Gizmos.DrawLine(new Vector3(-100, 0, 0), new Vector3(100, 0, 0));
+			Gizmos.DrawLine(new Vector3(0, -100, 0), new Vector3(0, 100, 0));
+		}
+
 		void Update()
 		{
 			var mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -143,11 +150,22 @@ namespace PolyEditor
 			DestroyImmediate(levelRoot);
 		}
 
-		void SetCurrentLayer (Layer layer)
+		void SetCurrentLayer (Layer newCurrentLayer)
 		{
-			currentLayer = layer;
-			uiControls.parallaxWeightSlider.value = layer.GetParallaxWeight();
-			uiControls.zPositionSlider.value = layer.GetZPosition();
+			for (var i = 0; i < level.GetLayers().Count; i++) {
+				var layer = level.GetLayers()[i];
+				if (newCurrentLayer == layer)
+				{
+					layer.SetAlpha(1);
+				} 
+					else
+				{
+					layer.SetAlpha(0.1f);
+				}
+			}
+			this.currentLayer = newCurrentLayer;
+			uiControls.parallaxWeightSlider.value = newCurrentLayer.GetParallaxWeight();
+			uiControls.zPositionSlider.value = newCurrentLayer.GetZPosition();
 		}
 
 		void AddColliderToLayer (GameObject layer, TriangleBlockData[] triangleBlocks) {

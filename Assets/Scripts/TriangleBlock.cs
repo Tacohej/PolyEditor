@@ -10,13 +10,13 @@ namespace PolyEditor
 		// Private
 		private GameObject[] triangles = new GameObject[4];
 
-		public void AddTriangle(TriangleLocation location)
+		public void AddTriangle(TriangleLocation location, Material material)
 		{
 			var index = (int)location;
 
 			if (!triangles[index])
 			{
-				CreateTriangle(index);
+				CreateTriangle(index, material);
 			}
 		}
 		public TriangleBlockData ToData ()
@@ -30,11 +30,11 @@ namespace PolyEditor
 			data.triangles[3] = !!triangles[3];
 			return data;
 		}
-		public void Load (TriangleBlockData data) {
+		public void Load (TriangleBlockData data, Material material) {
 			for (var i = 0; i < 4; i++){
 				if (data.triangles[i])
 				{
-					CreateTriangle(i);
+					CreateTriangle(i, material);
 				}
 			}
 		}
@@ -46,10 +46,11 @@ namespace PolyEditor
 				triangles[index] = null;
 			}
 		}
-		void CreateTriangle (int index) {
+		void CreateTriangle (int index, Material material) {
 			var triangle = GenerateTriangleGameObject(this.transform.position);
 			var mesh = GetMesh(index);
 			triangle.GetComponent<MeshFilter>().mesh = mesh;
+			triangle.GetComponent<MeshRenderer>().material = material;
 			triangle.transform.parent = this.transform;
 			triangles[index] = triangle;
 		}

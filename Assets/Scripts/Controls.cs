@@ -8,8 +8,8 @@ namespace PolyEditor
 	public class Controls : MonoBehaviour {
 
 		// Public
-		public float panSpeed = 10f;
-		public float zoomSpeed = 5f;
+		public float panSpeed;
+		public float zoomSpeed;
 		
 		// Private
 		private float maxZoom = 1f;
@@ -26,11 +26,11 @@ namespace PolyEditor
 			var horizontalInput = Input.GetAxis("Horizontal");
 			var verticalInput = Input.GetAxis("Vertical");
 			var mouseScrollInput = Input.GetAxis("Mouse ScrollWheel");
-			var realPanSpeed = Time.deltaTime * panSpeed;
 
 			// Zoom faster when camera is further away
 			var realZoomSpeed = mouseScrollInput * editorCamera.orthographicSize;
-
+			var realPanSpeed = Time.deltaTime * panSpeed * editorCamera.orthographicSize;
+			
 			// Apply zoom to camera
 			if (mouseScrollInput != 0)
 			{
